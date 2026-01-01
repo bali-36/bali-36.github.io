@@ -122,7 +122,7 @@ function handleTilt(e) {
 function resetTilt(e) {
     const card = e.currentTarget;
     card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) scale3d(1, 1, 1)';
-    card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+    card.style.transition = 'transform 0.3s cubic-bezier(0.23, 1, 0.32, 1)';
     
     const shine = card.querySelector('.card-shine');
     if (shine) {
@@ -203,7 +203,7 @@ function initTypingEffect() {
 function initScrollAnimations() {
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -50px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
@@ -219,9 +219,22 @@ function initScrollAnimations() {
     const animatedElements = document.querySelectorAll('.section, .card, .timeline-item');
     
     animatedElements.forEach((element, index) => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = `all 0.6s ease ${index * 0.1}s`;
+        // Check if element is already in viewport
+        const rect = element.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isInViewport) {
+            // Element is already visible, show immediately
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+            element.style.transition = `all 0.35s ease ${index * 0.05}s`;
+        } else {
+            // Element is not visible yet, prepare for animation
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = `all 0.35s ease ${index * 0.05}s`;
+        }
+        
         observer.observe(element);
     });
 }
@@ -403,7 +416,7 @@ function initCertificateModal() {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const certName = this.getAttribute('data-cert');
-            const certPath = 'Certificates/' + certName;
+            const certPath = 'Assets/Certificates/' + certName;
             
             // Open certificate in new tab (works for both PDFs and images)
             const newWindow = window.open(certPath, '_blank');
@@ -415,10 +428,6 @@ function initCertificateModal() {
     });
 }
 
-// ============================
-// CONSOLE EASTER EGG
-// ============================
-
 console.log('%c⚡ SYSTEM ACCESS GRANTED ⚡', 'color: #64ffda; font-size: 20px; font-weight: bold;');
 console.log('%cWelcome to Muhammad Bilal Badar\'s Portfolio', 'color: #8892b0; font-size: 14px;');
-console.log('%cInterested in the code? Check out my GitHub: github.com/devdas36', 'color: #64ffda; font-size: 12px;');
+console.log('%cInterested in the code? Check out my GitHub: github.com/bali-36', 'color: #64ffda; font-size: 12px;');

@@ -83,7 +83,7 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--glass-border);
@@ -158,6 +158,26 @@ nav:hover {
     width: 100%;
 }
 
+/* Resume Link Special Styling */
+.nav-links .resume-link {
+    color: var(--neon-cyan);
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--neon-cyan);
+    border-radius: 4px;
+    transition: var(--transition-smooth);
+}
+
+.nav-links .resume-link::before {
+    display: none;
+}
+
+.nav-links .resume-link:hover {
+    background: var(--neon-cyan);
+    color: var(--midnight-blue);
+    box-shadow: 0 0 15px var(--neon-cyan);
+}
+
 .nav-links a.active {
     color: var(--neon-cyan);
 }
@@ -190,7 +210,7 @@ nav:hover {
    ============================ */
 
 main {
-    margin-top: 80px;
+    margin-top: 60px;
     padding: 2rem;
     padding-bottom: 4rem;
     transform-style: preserve-3d;
@@ -200,7 +220,7 @@ main {
 @media (max-width: 480px) {
     main {
         padding: 1rem;
-        margin-top: 70px;
+        margin-top: 55px;
     }
 }
 
@@ -321,7 +341,7 @@ main {
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.1), transparent);
-    transition: left 0.5s ease;
+    transition: left 0.25s ease;
 }
 
 .card:hover::before,
@@ -446,8 +466,20 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
     padding: 4rem 2rem;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.hero-text {
+    flex: 1;
+    text-align: left;
 }
 
 .hero-title {
@@ -485,6 +517,48 @@ main {
     display: flex;
     gap: 1rem;
     margin-top: 2rem;
+}
+
+/* Profile Photo Styles */
+.profile-photo {
+    width: 250px;
+    height: 250px;
+    flex-shrink: 0;
+    position: relative;
+    animation: fadeInScale 1s ease-out;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--neon-cyan);
+    box-shadow: 
+        0 0 20px var(--neon-cyan),
+        0 0 40px var(--neon-cyan-dim),
+        inset 0 0 20px rgba(100, 255, 218, 0.1);
+    transition: var(--transition-smooth);
+}
+
+.profile-photo img:hover {
+    transform: scale(1.05);
+    border-color: var(--neon-cyan);
+    box-shadow: 
+        0 0 30px var(--neon-cyan),
+        0 0 60px var(--neon-cyan-dim),
+        inset 0 0 30px rgba(100, 255, 218, 0.2);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* ============================
@@ -844,6 +918,21 @@ footer {
         padding: 2rem 1.5rem;
     }
 
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .hero-text {
+        text-align: center;
+    }
+
+    .profile-photo {
+        width: 180px;
+        height: 180px;
+    }
+
     .hero-title {
         font-size: 2.5rem;
         line-height: 1.2;
@@ -851,6 +940,10 @@ footer {
 
     .hero-subtitle {
         font-size: 1.2rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
     }
 
     .typing-text {
