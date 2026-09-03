@@ -186,6 +186,7 @@ function initCertificateModal() {
   overlay.setAttribute('aria-modal', 'true');
   overlay.innerHTML = `
     <div class="cert-modal-inner">
+      <a class="cert-modal-external" href="" target="_blank" rel="noopener" title="Open certificate in new tab" aria-label="Open certificate in new tab">↗</a>
       <button class="cert-modal-close" aria-label="Close certificate">&times;</button>
       <iframe id="certFrame" title="Certificate" src=""></iframe>
     </div>`;
@@ -193,16 +194,30 @@ function initCertificateModal() {
 
   const frame = overlay.querySelector('#certFrame');
   const closeBtn = overlay.querySelector('.cert-modal-close');
+  const extLink = overlay.querySelector('.cert-modal-external');
+
+  function resolvePath(certFile) {
+    if (!certFile) return '';
+    if (certFile.startsWith('assets/') || certFile.includes('/')) {
+      return certFile;
+    }
+    return 'assets/certificates/' + certFile;
+  }
 
   function open(certFile) {
-    frame.src = 'assets/certificates/' + certFile;
+    const path = resolvePath(certFile);
+    frame.src = encodeURI(path);
+    if (extLink) extLink.href = encodeURI(path);
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
   function close() {
     overlay.classList.remove('open');
     document.body.style.overflow = '';
-    setTimeout(() => { frame.src = ''; }, 400);
+    setTimeout(() => { 
+      frame.src = ''; 
+      if (extLink) extLink.href = '';
+    }, 400);
   }
 
   btns.forEach(btn => btn.addEventListener('click', () => open(btn.dataset.cert)));
